@@ -3,15 +3,14 @@ import { useSelector } from "react-redux";
 import { selectArticles, filterArticles } from "../features/articles/articlesSlice";
 import Search from "./Search";
 
-// Import Link and useSearchParams from React Router
+import {Link, useSearchParams } from 'react-router-dom';
 
 export default function Articles () {
   const articles = useSelector(selectArticles);
 
-  // Grab URLSearchParams object from useSearchParams hook
+  const [ searchParams] = useSearchParams();
   
-  // Get the queryParams from object returned from useSearchParams and set to `title`
-  const title = '';
+  const title = searchParams.get('title');
 
   const filteredArticles = title ? filterArticles(title, articles) : Object.values(articles)
 
@@ -21,10 +20,10 @@ export default function Articles () {
       <ul>
         { filteredArticles.map(article => (
           <li key={article.slug}>
-            {/* Replace these a tags! */}
-            <a href={`${article.slug}`}>
+            {title}
+            <Link to={`${article.slug}`}>
               {article.title}
-            </a>
+            </Link>
           </li>
         ))}
       </ul>
